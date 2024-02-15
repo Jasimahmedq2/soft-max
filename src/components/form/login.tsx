@@ -13,6 +13,12 @@ import { Button } from "../ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Image from "next/image";
 import arrow from "../../assests/right-arrow.png";
+import { useLoginMutation } from "@/redux/api/authApi";
+import { useEffect } from "react";
+import { toast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/app/hook";
+import { LoginAction } from "@/redux/features/authSlice";
 
 interface Inputs {
   mobile_number: string;
@@ -20,13 +26,48 @@ interface Inputs {
 }
 
 const Login = () => {
+  const router = useRouter();
+  const [LoginUser, { data: UserData, isLoading, isError, isSuccess }] =
+    useLoginMutation();
+
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    LoginUser(data);
+  };
+
+  useEffect(() => {
+    if (isError) {
+      toast({
+        title: "something went wrong",
+      });
+    }
+    if (isSuccess) {
+      toast({
+        title: "successfully created a new user",
+      });
+      if (UserData?.user?.role === "student") {
+        router.push("/dashboard/student/courses");
+      }
+      if (UserData?.user?.role === "teacher") {
+        router.push("/dashboard/teacher/courses");
+      }
+      if (UserData?.user?.role === "admin") {
+        router.push("/dashboard/admin/teacher_request");
+      }
+
+      reset();
+      dispatch(LoginAction(UserData));
+      console.log(UserData);
+    }
+  }, [reset, isLoading, isSuccess, isError]);
   return (
     <div>
       <Card className="shadow bg-white rounded">

@@ -13,6 +13,9 @@ import { Button } from "../ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import arrow from "../../assests/right-arrow.png";
 import Image from "next/image";
+import { useCreateStudentMutation } from "@/redux/api/authApi";
+import { useEffect } from "react";
+import { toast } from "../ui/use-toast";
 
 interface Inputs {
   name: string;
@@ -25,10 +28,32 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const [createUser, { isLoading, isSuccess, isError }] =
+    useCreateStudentMutation();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    createUser(data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    if (isError) {
+      toast({
+        title: "something went wrong",
+      });
+    }
+    if (isSuccess) {
+      toast({
+        title: "successfully created a new user",
+      });
+      reset();
+    }
+  }, [reset, isLoading, isSuccess, isError]);
+
   return (
     <div>
       <Card className="shadow bg-white rounded w-11/12 sm:w-full">
@@ -95,7 +120,9 @@ const Signup = () => {
               type="submit"
               className="bg-gradient-to-r from-[#1ab69d] via-[#4cc18c] to-[#1ab69d] space-x-2 mt-4 rounded"
             >
-              <span className="text-[#f7fdfc] font-bold">Signup</span>
+              <span className="text-[#f7fdfc] font-bold">
+                {isLoading ? "looding..." : "SingUp"}
+              </span>
               <Image width={16} height={16} src={arrow} alt="arrow" />
             </Button>
           </form>
