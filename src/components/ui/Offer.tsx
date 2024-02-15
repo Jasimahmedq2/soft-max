@@ -41,8 +41,10 @@ const Offer = () => {
           <OfferCard
             text="Live and Recorded Classes"
             style={`${
-              selectComponent === "offer1" ? "bg-[#1ab69d] text-white" : ""
-            } flex max-w-sm  items-center space-x-4 sm:space-x-8 bg-[#eefaf8] hover:bg-[#1ab69d] cursor-pointer p-6 hover:text-white rounded`}
+              selectComponent === "offer1"
+                ? "bg-[#1ab69d] text-white"
+                : "bg-[#eefaf8]"
+            } flex max-w-sm  items-center space-x-4 sm:space-x-8  hover:bg-[#1ab69d] cursor-pointer p-6 hover:text-white rounded`}
             image={study}
             setCurrentImage={setCurrentImage}
             sentImage="https://i.ibb.co/HDFFXD3/offer-1.jpg"
@@ -52,8 +54,10 @@ const Offer = () => {
           <OfferCard
             text="Animated Video"
             style={`${
-              selectComponent === "offer2" ? "bg-[#d5334e] text-white" : ""
-            } flex max-w-sm  items-center space-x-4 sm:space-x-8 bg-[#fef2f4] hover:bg-[#d5334e] cursor-pointer p-6 hover:text-white rounded`}
+              selectComponent === "offer2"
+                ? "bg-[#d5334e] text-white"
+                : "bg-[#fef2f4]"
+            } flex max-w-sm  items-center space-x-4 sm:space-x-8  hover:bg-[#d5334e] cursor-pointer p-6 hover:text-white rounded`}
             image={video}
             setCurrentImage={setCurrentImage}
             sentImage="https://i.ibb.co/sw44sYn/offer-2.jpg"
@@ -63,8 +67,10 @@ const Offer = () => {
           <OfferCard
             text="Practice MCQ Test"
             style={`${
-              selectComponent === "offer3" ? "bg-[#53c98e] text-white" : ""
-            } flex max-w-sm  items-center space-x-4 sm:space-x-8 bg-[#eefcf5] hover:bg-[#53c98e] cursor-pointer p-6 hover:text-white rounded`}
+              selectComponent === "offer3"
+                ? "bg-[#53c98e] text-white"
+                : "bg-[#eefcf5]"
+            } flex max-w-sm  items-center space-x-4 sm:space-x-8  hover:bg-[#53c98e] cursor-pointer p-6 hover:text-white rounded`}
             image={mcq}
             setCurrentImage={setCurrentImage}
             sentImage="https://i.ibb.co/LSmqCd1/offer-3.jpg"
@@ -74,8 +80,10 @@ const Offer = () => {
           <OfferCard
             text="Live MCQ Test"
             style={`${
-              selectComponent === "offer4" ? "bg-[#edb844] text-white " : ""
-            } flex max-w-sm  items-center space-x-4 sm:space-x-8 bg-[#fffaef] hover:bg-[#edb844] cursor-pointer p-6 hover:text-white rounded`}
+              selectComponent === "offer4"
+                ? " bg-[#edb844] text-white "
+                : "bg-[#fffaef]"
+            } flex max-w-sm  items-center space-x-4 sm:space-x-8  hover:bg-[#edb844] cursor-pointer p-6 hover:text-white rounded`}
             image={live}
             setCurrentImage={setCurrentImage}
             sentImage="https://i.ibb.co/pyHPxJT/offer-4.jpg"
@@ -85,8 +93,10 @@ const Offer = () => {
           <OfferCard
             text="Class Note"
             style={`${
-              selectComponent === "offer5" ? "bg-[#7150b3] text-white" : ""
-            } flex max-w-sm  items-center space-x-4 sm:space-x-8 bg-[#f7f3ff] hover:bg-[#7150b3] cursor-pointer p-6 hover:text-white rounded`}
+              selectComponent === "offer5"
+                ? "bg-[#7150b3] text-white"
+                : "bg-[#f7f3ff]"
+            } flex max-w-sm  items-center space-x-4 sm:space-x-8 hover:bg-[#7150b3] cursor-pointer p-6 hover:text-white rounded`}
             image={note}
             setCurrentImage={setCurrentImage}
             sentImage="https://i.ibb.co/60gRJhK/offer-6.jpg"
@@ -96,8 +106,10 @@ const Offer = () => {
           <OfferCard
             text="Smart Note"
             style={`${
-              selectComponent === "offer6" ? "bg-[#c55895] text-white" : ""
-            } flex max-w-sm  items-center space-x-4 sm:space-x-8 bg-[#ffeff8] hover:bg-[#c55895] cursor-pointer p-6 hover:text-white rounded`}
+              selectComponent === "offer6"
+                ? "bg-[#c55895] text-white"
+                : "bg-[#ffeff8]"
+            } flex max-w-sm  items-center space-x-4 sm:space-x-8  hover:bg-[#c55895] cursor-pointer p-6 hover:text-white rounded`}
             image={note2}
             setCurrentImage={setCurrentImage}
             sentImage="https://i.ibb.co/Jkw9JHf/offer-5.jpg"

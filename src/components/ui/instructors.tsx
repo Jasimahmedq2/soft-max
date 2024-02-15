@@ -23,7 +23,6 @@ const Instructor = ({
           {name}
         </h4>
         <p className="block font-sans text-base antialiased font-medium leading-relaxed text-gray-400">
-            hello
           {designation}
         </p>
       </div>
