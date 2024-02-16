@@ -71,12 +71,22 @@ const TeacherRequest = () => {
               <TableCell>{teacher.phone_number}</TableCell>
               <TableCell>
                 <div>
-                  <Button
-                    onClick={() => handleApproveTeacher(teacher?.id)}
-                    className="bg-white border border-gray-300"
-                  >
-                    Approve
-                  </Button>
+                  {teacher?.approved_as_teacher === true ? (
+                    <Button
+                      disabled={teacher?.approved_as_teacher}
+                      onClick={() => handleApproveTeacher(teacher?.id)}
+                      className="bg-white border border-gray-400 disabled:cursor-default"
+                    >
+                      Approved
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => handleApproveTeacher(teacher?.id)}
+                      className="bg-white border border-gray-300"
+                    >
+                      Approve
+                    </Button>
+                  )}
                 </div>
               </TableCell>
             </TableRow>

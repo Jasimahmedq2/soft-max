@@ -15,7 +15,7 @@ const DashBoardGroupLayout = ({ children }: { children: React.ReactNode }) => {
         className="max-w-full rounded-lg border relative"
       >
         <ResizablePanel
-          className=" bg-white border-r-4 border-gray-400"
+          className=" bg-white border-r-4 hover:border-green-400 border-gray-400"
           defaultSize={20}
           maxSize={30}
         >

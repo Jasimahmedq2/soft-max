@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import arrow from "../../../../../assests/right-arrow.png";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,33 +29,13 @@ import {
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-
-const items = [
-  {
-    id: "recents",
-    label: "Recents",
-  },
-  {
-    id: "home",
-    label: "Home",
-  },
-  {
-    id: "applications",
-    label: "Applications",
-  },
-  {
-    id: "desktop",
-    label: "Desktop",
-  },
-  {
-    id: "downloads",
-    label: "Downloads",
-  },
-  {
-    id: "documents",
-    label: "Documents",
-  },
-] as const;
+import {
+  useCategoriesQuery,
+  useTeacherCreateCoursesMutation,
+  useTeachersQuery,
+} from "@/redux/api/teacherApi";
+import { useAppSelector } from "@/redux/app/hook";
+import Skeleton from "@/components/ui/Skeleton";
 
 const FormSchema = z.object({
   teacher: z.array(z.string()).refine((value) => value.some((item) => item), {
@@ -73,21 +53,68 @@ const CreateCourses = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      teacher: ["recents", "home"],
+      teacher: ["4"],
     },
   });
 
+  const { accessToken } = useAppSelector((state) => state.auth);
+
+  const [createCourse, { isLoading, isSuccess, isError }] =
+    useTeacherCreateCoursesMutation();
+
+  const {
+    data: CData,
+    isLoading: CLoading,
+    isSuccess: CSuccess,
+  } = useCategoriesQuery(accessToken);
+  const {
+    data: TData,
+    isLoading: TLoading,
+    isSuccess: TSuccess,
+  } = useTeachersQuery(accessToken);
+
+  console.log("category", CData, "tdata", TData);
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    const informations = {
+      info: {
+        category: data?.category,
+        teacher: data?.teacher,
+        title: data?.title,
+      },
+      token: accessToken,
+    };
+    createCourse(informations);
+    console.log(informations);
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: "created a new courese",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-white-950 p-4">
+            <code className="text-black bg-white">success</code>
+          </pre>
+        ),
+      });
+      form.reset();
+    }
+    if (isError) {
+      toast({
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-white p-4">
+            <code className="text-red-400">something went wrong</code>
+          </pre>
+        ),
+      });
+    }
+  }, [isLoading, isError, isSuccess, form.reset]);
+
+  if (CLoading || TLoading) {
+    return <Skeleton />;
+  }
+
   return (
     <div className="w-full max-w-md p-8 space-y-3 rounded-xl border bg-white   font-sans mx-auto">
       <h1 className="text-3xl font-bold text-center text-indigo-600">
@@ -104,7 +131,7 @@ const CreateCourses = () => {
                 <div className="mb-4">
                   <FormLabel className="text-base">Teachers</FormLabel>
                 </div>
-                {items.map((item) => (
+                {TData?.map((item: any) => (
                   <FormField
                     key={item.id}
                     control={form.control}
@@ -117,20 +144,25 @@ const CreateCourses = () => {
                         >
                           <FormControl>
                             <Checkbox
-                              checked={field.value?.includes(item.id)}
+                              checked={field.value?.includes(
+                                item.id.toString()
+                              )}
                               onCheckedChange={(checked) => {
                                 return checked
-                                  ? field.onChange([...field.value, item.id])
+                                  ? field.onChange([
+                                      ...field.value,
+                                      item.id.toString(),
+                                    ])
                                   : field.onChange(
                                       field.value?.filter(
-                                        (value) => value !== item.id
+                                        (value) => value !== item.id.toString()
                                       )
                                     );
                               }}
                             />
                           </FormControl>
                           <FormLabel className="text-sm font-normal">
-                            {item.label}
+                            {item?.name}
                           </FormLabel>
                         </FormItem>
                       );
@@ -155,13 +187,21 @@ const CreateCourses = () => {
                 >
                   <FormControl>
                     <SelectTrigger className="border border-gray-300">
-                      <SelectValue placeholder="Select a verified email to display" />
+                      <SelectValue placeholder="select a category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="bg-white">
-                    <SelectItem value="m@example.com">m@example.com</SelectItem>
-                    <SelectItem value="m@google.com">m@google.com</SelectItem>
-                    <SelectItem value="m@support.com">m@support.com</SelectItem>
+                    {CData?.map((category: any) => {
+                      return (
+                        <SelectItem
+                          className="cursor-pointer"
+                          key={category?.id}
+                          value={category?.id.toString()}
+                        >
+                          {category?.name}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
                 <FormMessage />

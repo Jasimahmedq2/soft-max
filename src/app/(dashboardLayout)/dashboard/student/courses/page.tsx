@@ -16,7 +16,7 @@ const Courses = () => {
 
   return (
     <div>
-      {data?.legnth === 0 && (
+      {data?.legnth < 1 && (
         <div className="flex justify-center items-center">
           <h2 className="text-xl font-bold text-center">
             You have not enrolled any courses
