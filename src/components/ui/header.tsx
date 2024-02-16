@@ -2,9 +2,13 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { Modal } from "./Modal";
+import { useAppDispatch, useAppSelector } from "@/redux/app/hook";
+import { logOut } from "@/redux/features/authSlice";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   return (
     <div className="relative z-20 px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
@@ -30,23 +34,35 @@ const Header = () => {
               Home
             </Link>
           </li>
-          <li>
-            <Link
-              href="/dashboard"
-              aria-label="Our product"
-              title="Our product"
-              className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-            >
-              Dashboard
-            </Link>
-          </li>
+          {isLoggedIn && (
+            <li>
+              <Link
+                href="/dashboard"
+                aria-label="Our product"
+                title="Our product"
+                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+              >
+                Dashboard
+              </Link>
+            </li>
+          )}
         </ul>
+
         <ul className="flex items-center hidden space-x-8 lg:flex">
-          <li>
+          {isLoggedIn ? (
+            <li>
+              <div
+                onClick={() => dispatch(logOut())}
+                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400 cursor-pointer"
+              >
+                LogOut
+              </div>
+            </li>
+          ) : (
             <li>
               <Modal />
             </li>
-          </li>
+          )}
         </ul>
         <div className="lg:hidden">
           <button
@@ -114,20 +130,33 @@ const Header = () => {
                         Home
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        href="/dashboard"
-                        aria-label="Our product"
-                        title="Our product"
-                        className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                      >
-                        Dashboard
-                      </Link>
-                    </li>
+                    {isLoggedIn && (
+                      <li>
+                        <Link
+                          href="/dashboard"
+                          aria-label="Our product"
+                          title="Our product"
+                          className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                        >
+                          Dashboard
+                        </Link>
+                      </li>
+                    )}
 
-                    <li>
-                      <Modal />
-                    </li>
+                    {isLoggedIn ? (
+                      <li>
+                        <div
+                          onClick={() => dispatch(logOut())}
+                          className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400 cursor-pointer"
+                        >
+                          LogOut
+                        </div>
+                      </li>
+                    ) : (
+                      <li>
+                        <Modal />
+                      </li>
+                    )}
                   </ul>
                 </nav>
               </div>

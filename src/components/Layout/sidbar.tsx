@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import house from "../../assests/house.png";
+import { useAppSelector } from "@/redux/app/hook";
 
 const studentList = [
   {
@@ -39,7 +40,7 @@ const adminList = [
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const role = "teacher";
+  const { role } = useAppSelector((state) => state.auth);
 
   return (
     <div className="h-screen overflow-auto space-y-6 py-6 shadow-lg">

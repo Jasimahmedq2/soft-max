@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import arrow from "../../../../../assests/right-arrow.png";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
+import { useAddCategoryMutation } from "@/redux/api/adminApi";
+import { useAppSelector } from "@/redux/app/hook";
+import { isErrored } from "stream";
 
 const FormSchema = z.object({
   name: z.string({
@@ -37,17 +40,45 @@ const CreateCategory = () => {
     resolver: zodResolver(FormSchema),
   });
 
+  const { accessToken } = useAppSelector((state) => state.auth);
+
+  const [AddCategory, { isLoading, isSuccess, isError }] =
+    useAddCategoryMutation();
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    const Informations = {
+      info: {
+        name: data.name,
+        description: data.description,
+      },
+      token: accessToken,
+    };
     console.log(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    AddCategory(Informations);
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: "created a category",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-white-950 p-4">
+            <code className="text-black bg-white">success</code>
+          </pre>
+        ),
+      });
+      form.reset();
+    }
+    if (isError) {
+      toast({
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-white p-4">
+            <code className="text-red-400">something went wrong</code>
+          </pre>
+        ),
+      });
+    }
+  }, [isLoading, isError, isSuccess, form.reset]);
   return (
     <div className="w-full max-w-md p-8 space-y-3 rounded-xl border bg-white   font-sans mx-auto">
       <h1 className="text-3xl font-bold text-center text-indigo-600">
@@ -92,8 +123,14 @@ const CreateCategory = () => {
               </FormItem>
             )}
           />
-          <Button className="bg-gradient-to-r from-[#1ab69d] via-[#4cc18c] to-[#1ab69d] space-x-2 py-6 rounded">
-            <span className="text-[#f7fdfc] font-bold">Create Category</span>
+          <Button
+            type="submit"
+            className="bg-gradient-to-r from-[#1ab69d] via-[#4cc18c] to-[#1ab69d] space-x-2 py-6 rounded"
+          >
+            <span className="text-[#f7fdfc] font-bold">
+              {" "}
+              {isLoading ? "looding..." : "Create category"}
+            </span>
             <Image width={16} height={16} src={arrow} alt="arrow" />
           </Button>
         </form>

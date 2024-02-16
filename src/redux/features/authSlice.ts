@@ -28,8 +28,14 @@ export const AuthSlice = createSlice({
         (state.role = action.payload.user.role),
         (state.userId = action.payload.user.id);
     },
+    logOut: (state) => {
+      (state.isLoggedIn = false),
+        (state.accessToken = null),
+        (state.role = null),
+        (state.userId = null);
+    },
   },
 });
 
-export const { LoginAction } = AuthSlice.actions;
+export const { LoginAction, logOut } = AuthSlice.actions;
 export default AuthSlice.reducer;

@@ -1,3 +1,5 @@
+"use client";
+import Skeleton from "@/components/ui/Skeleton";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,23 +11,46 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const teachers = [
-  {
-    name: "jasim",
-    phone_number: "549039048309",
-  },
-  {
-    name: "jasim",
-    phone_number: "549039048309",
-  },
-  {
-    name: "jasim",
-    phone_number: "549039048309",
-  },
-];
+import { toast } from "@/components/ui/use-toast";
+import {
+  useAproveTeacherQuery,
+  useTeacherListQuery,
+} from "@/redux/api/teacherApi";
+import { useAppSelector } from "@/redux/app/hook";
 
 const TeacherRequest = () => {
+  const { accessToken } = useAppSelector((state) => state.auth);
+
+  const {
+    data: teachers,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useTeacherListQuery(undefined);
+
+  const handleApproveTeacher = (id: number) => {
+    fetch(`https://softmaxshop.com/user/approve-teacher/${id}`, {
+      method: "GET",
+    })
+      .then(async (res) => {
+        if (res.ok) {
+          const data = await res.json();
+          console.log("Data:", data);
+          toast({
+            title: "Approved teacher",
+          });
+        } else {
+          toast({
+            title: "something went wrong",
+          });
+          console.error("Error approving teacher:", res.statusText);
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  };
+
   return (
     <Table className="bg-white shadow">
       <TableCaption>Teachers Request</TableCaption>
@@ -37,19 +62,26 @@ const TeacherRequest = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {teachers.map((teacher, index) => (
-          <TableRow key={index}>
-            <TableCell className="font-medium">{teacher.name}</TableCell>
-            <TableCell>{teacher.phone_number}</TableCell>
-            <TableCell>
-              <div>
-                <Button className="bg-white border border-gray-300">
-                  Approve
-                </Button>
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
+        {isLoading ? (
+          <Skeleton />
+        ) : (
+          teachers.map((teacher: any) => (
+            <TableRow key={teacher?.id}>
+              <TableCell className="font-medium">{teacher.fullName}</TableCell>
+              <TableCell>{teacher.phone_number}</TableCell>
+              <TableCell>
+                <div>
+                  <Button
+                    onClick={() => handleApproveTeacher(teacher?.id)}
+                    className="bg-white border border-gray-300"
+                  >
+                    Approve
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))
+        )}
       </TableBody>
     </Table>
   );

@@ -6,6 +6,7 @@ import rightArrow from "../../assests/right-arrow.png";
 import Link from "next/link";
 import { Button } from "./button";
 import { Modal } from "./Modal";
+import TeacherModal from "./TeacherModal";
 
 const NavbarComponent = () => {
   return (
@@ -28,12 +29,7 @@ const NavbarComponent = () => {
           </div>
         </div>
         <div className="flex justify-between items-center space-x-4 sm:space-x-6">
-          <div className="group">
-            <Button className="bg-gradient-to-r from-[#1ab69d] via-[#4cc18c] to-[#1ab69d] sm:space-x-2">
-              <span className="text-[#f7fdfc] sm:font-bold">See Courses</span>
-              <Image width={16} height={16} src={rightArrow} alt="arrow" />
-            </Button>
-          </div>
+          <TeacherModal />
         </div>
       </div>
     </>

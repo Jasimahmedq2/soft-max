@@ -8,7 +8,7 @@ const AuthApi = Api.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["auth"],
+     
     }),
     Login: builder.mutation({
       query: (data) => ({
@@ -16,7 +16,7 @@ const AuthApi = Api.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["auth"],
+     
     }),
   }),
 });
