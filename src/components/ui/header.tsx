@@ -4,14 +4,28 @@ import React, { useState } from "react";
 import { Modal } from "./Modal";
 import { useAppDispatch, useAppSelector } from "@/redux/app/hook";
 import { logOut } from "@/redux/features/authSlice";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { isLoggedIn, role } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleNavigate = () => {
+    if (role === "student") {
+      router.push("/dashboard/student/courses");
+    }
+    if (role === "teacher") {
+      router.push("/dashboard/teacher/courses");
+    }
+    if (role === "admin") {
+      router.push("/dashboard/admin/teacher_request");
+    }
+  };
 
   return (
-    <div className="relative z-20 px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+    <div className="relative z-10 px-4 py-3 sm:py-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
       <div className="relative flex items-center justify-between">
         <Link
           href="/"
@@ -36,14 +50,14 @@ const Header = () => {
           </li>
           {isLoggedIn && (
             <li>
-              <Link
-                href="/dashboard"
+              <div
+                onClick={handleNavigate}
                 aria-label="Our product"
                 title="Our product"
-                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400 cursor-pointer"
               >
                 Dashboard
-              </Link>
+              </div>
             </li>
           )}
         </ul>
@@ -132,14 +146,14 @@ const Header = () => {
                     </li>
                     {isLoggedIn && (
                       <li>
-                        <Link
-                          href="/dashboard"
+                        <div
+                          onClick={handleNavigate}
                           aria-label="Our product"
                           title="Our product"
-                          className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                          className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400 cursor-pointer"
                         >
                           Dashboard
-                        </Link>
+                        </div>
                       </li>
                     )}
 

@@ -53,6 +53,7 @@ const Login = () => {
       toast({
         title: "successfully created a new user",
       });
+      
       if (UserData?.user?.role === "student") {
         router.push("/dashboard/student/courses");
       }

@@ -28,19 +28,22 @@ const Instructor = ({
       </div>
       <div className="flex justify-center p-6 pt-2 gap-7">
         <a
-          href="#facebook"
+          href="https://www.facebook.com/jasim4148"
+          target="_blank"
           className="block font-sans text-xl antialiased font-normal leading-relaxed text-transparent bg-clip-text bg-gradient-to-tr from-blue-600 to-blue-400"
         >
           <Image width={16} height={16} src={facebook} alt="facebook" />
         </a>
         <a
-          href="#twitter"
+          href="https://www.linkedin.com/in/jasim4148/"
+          target="_blank"
           className="block font-sans text-xl antialiased font-normal leading-relaxed text-transparent bg-clip-text bg-gradient-to-tr from-light-blue-600 to-light-blue-400"
         >
           <Image width={16} height={16} src={linkedin} alt="linkedin" />
         </a>
         <a
-          href="#instagram"
+          href="https://twitter.com/jasimahmedq2"
+          target="_blank"
           className="block font-sans text-xl antialiased font-normal leading-relaxed text-transparent bg-clip-text bg-gradient-to-tr from-purple-600 to-purple-400"
         >
           <Image width={16} height={16} src={twitter} alt="twitter" />

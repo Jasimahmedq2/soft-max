@@ -7,9 +7,11 @@ import { ICourse } from "@/types/interfaces";
 import { useEnrollCoursesMutation } from "@/redux/api/courseApi";
 import { useAppSelector } from "@/redux/app/hook";
 import { toast } from "./use-toast";
+import { useRouter } from "next/navigation";
 
 const CourseCard = ({ course }: { course: ICourse }) => {
   const { accessToken, userId, role } = useAppSelector((state) => state.auth);
+  const router = useRouter();
 
   const [enrolledCourse, { isLoading, isSuccess, isError }] =
     useEnrollCoursesMutation();
@@ -36,6 +38,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
       toast({
         title: "successfully enrolled",
       });
+      router.push("/dashboard/student/my_courses");
     }
   }, [isError, isSuccess]);
   return (

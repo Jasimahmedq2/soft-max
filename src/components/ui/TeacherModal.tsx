@@ -38,6 +38,7 @@ const TeacherModal = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     sentRequest(data);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -84,6 +85,18 @@ const TeacherModal = () => {
                 )}
               </div>
               <div className="space-y-1">
+                <Label>email</Label>
+                <Input
+                  {...register("email", { required: true })}
+                  aria-invalid={errors.email ? "true" : "false"}
+                  id="new"
+                  type="text"
+                />
+                {errors.email && (
+                  <i className="text-sm text-red-400">email is required</i>
+                )}
+              </div>
+              <div className="space-y-1">
                 <Label>mobile number</Label>
                 <Input
                   {...register("phone_number", { required: true })}
@@ -95,18 +108,6 @@ const TeacherModal = () => {
                   <i className="text-sm text-red-400">
                     mobile number is required
                   </i>
-                )}
-              </div>
-              <div className="space-y-1">
-                <Label>email</Label>
-                <Input
-                  {...register("email", { required: true })}
-                  aria-invalid={errors.email ? "true" : "false"}
-                  id="new"
-                  type="text"
-                />
-                {errors.email && (
-                  <i className="text-sm text-red-400">email is required</i>
                 )}
               </div>
 

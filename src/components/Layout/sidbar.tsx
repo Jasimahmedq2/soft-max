@@ -40,6 +40,7 @@ const adminList = [
 
 const Sidebar = () => {
   const pathname = usePathname();
+  console.log({ pathname });
   const { role } = useAppSelector((state) => state.auth);
 
   return (
@@ -67,8 +68,8 @@ const Sidebar = () => {
           return (
             <Link href={`${list.link}`}>
               <div
-                className={` ${
-                  pathname.includes(list.link) ? "bg-gray-200" : "bg-white"
+                className={`${
+                  pathname.includes(list.link) ? "bg-[#E3DAC9] " : "bg-white"
                 } mt-3 bg-white shadow cursor-pointer rounded w-11/12 mx-auto py-3 px-6 text-center border border-[#eaf0f2] hover:bg-gray-200`}
               >
                 {list?.title}
@@ -85,8 +86,8 @@ const Sidebar = () => {
           return (
             <Link href={`${list.link}`}>
               <div
-                className={` ${
-                  pathname.includes(list.link) ? "bg-gray-200" : "bg-white"
+                className={`${
+                  pathname.includes(list.link) ? "bg-[#E3DAC9]" : "bg-white"
                 } mt-3 bg-white shadow cursor-pointer rounded w-11/12 mx-auto py-3 px-6 text-center border border-[#eaf0f2] hover:bg-gray-200`}
               >
                 {list?.title}
@@ -101,7 +102,7 @@ const Sidebar = () => {
             <Link href={`${list.link}`}>
               <div
                 className={`${
-                  pathname.includes(list.link) ? "bg-gray-200" : "bg-white"
+                  pathname.includes(list.link) ? "bg-[#E3DAC9] " : "bg-white"
                 } mt-3  shadow cursor-pointer rounded w-11/12 mx-auto py-3 px-6 text-center border border-[#eaf0f2] hover:bg-gray-200`}
               >
                 {list?.title}

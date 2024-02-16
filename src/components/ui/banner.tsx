@@ -83,10 +83,10 @@ const Banner = () => {
             Empowering your journey through immersive and dynamic learning
             experiences.
           </p>
-          <Button className="bg-gradient-to-r from-[#1ab69d] via-[#4cc18c] to-[#1ab69d] space-x-2 py-6 rounded">
+          {/* <Button className="bg-gradient-to-r from-[#1ab69d] via-[#4cc18c] to-[#1ab69d] space-x-2 py-6 rounded">
             <span className="text-[#f7fdfc] font-bold">See Courses</span>
             <Image width={16} height={16} src={arrow} alt="arrow" />
-          </Button>
+          </Button> */}
         </div>
         <div ref={textContaine2} className="sm:w-[60%] px-2 sm:px-6">
           <Image width={500} height={500} src={stundent} alt="student" />

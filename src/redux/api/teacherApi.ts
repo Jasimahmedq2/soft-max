@@ -6,7 +6,7 @@ const TeacherApi = Api.injectEndpoints({
       query: (data) => ({
         url: `/user/teachers/`,
         method: "POST",
-        data: data,
+        body: data,
       }),
       invalidatesTags: ["auth"],
     }),
